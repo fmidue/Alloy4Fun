@@ -12,40 +12,6 @@ import { modelShared,
     getCurrentTrace } from './state'
 import { savePositions } from '../visualizer/projection'
 
-/**
- * Store and share the current model and generate the sharing URLs.
- */
-export function shareModel() {
-    const themeData = {
-        sigSettings: sigSettings.data(),
-        relationSettings: relationSettings.data(),
-        generalSettings: generalSettings.data(),
-        currentFramePosition,
-        currentlyProjectedSigs,
-        nodePositions
-    }
-
-    const modelToShare = textEditor.getValue()
-    Meteor.call('genURL', modelToShare, Session.get('last_id'), themeData, handleShareModel)
-}
-
-/**
- * Store and share the current instance and generate the sharing URL. The
- * respective model is already stored due to the execution.
- */
-export function shareInstance() {
-    savePositions()
-    const themeData = {
-        sigSettings: sigSettings.data(),
-        relationSettings: relationSettings.data(),
-        generalSettings: generalSettings.data(),
-        currentState: currentState(),
-        currentFramePosition,
-        currentlyProjectedSigs,
-        nodePositions
-    }
-    Meteor.call('storeInstance', Session.get('last_id'), getCommandIndex(), getCurrentTrace(), themeData, handleShareInstance)
-}
 
 /**
  * Handles the response to the model sharing request.
