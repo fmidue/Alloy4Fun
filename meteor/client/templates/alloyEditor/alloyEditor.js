@@ -1,7 +1,7 @@
 import classie from 'classie'
 import 'qtip2/src/core.css'
 import { getCommandsFromCode } from '../../../lib/editor/text'
-import { shareModel, shareInstance } from '../../lib/editor/genUrl'
+import { shareModel } from '../../lib/editor/genUrl'
 import { executeModel, nextInstance, prevInstance } from '../../lib/editor/executeModel'
 import { downloadTree } from '../../lib/editor/downloadTree'
 import { copyToClipboard } from '../../lib/editor/clipboard'
@@ -224,7 +224,6 @@ Template.alloyEditor.events({
     'change .command-selection > select'() {
         cmdChanged()
     },
-    'click #genUrl > button': shareModel,
     'click #prev > button': prevInstance,
     'click #next > button': nextInstance,
     'click #nextTrace'() {       
@@ -237,7 +236,6 @@ Template.alloyEditor.events({
         updateGraph(prevState(),true)
         applyPositions()
     },
-    'click #genInstanceUrl > button': shareInstance,
     'click #downloadTree > button': downloadTree,
     'click .clipboardbutton'(evt) {
         copyToClipboard(evt)
