@@ -3,7 +3,6 @@ import 'qtip2/src/core.css'
 import { getCommandsFromCode } from '../../../lib/editor/text'
 import { shareModel } from '../../lib/editor/genUrl'
 import { executeModel, nextInstance, prevInstance } from '../../lib/editor/executeModel'
-import { downloadTree } from '../../lib/editor/downloadTree'
 import { copyToClipboard } from '../../lib/editor/clipboard'
 import { cmdChanged, isUnsatInstance, prevState, nextState, 
     lastState, currentState, setCurrentState, storeInstances, 
@@ -41,50 +40,6 @@ Template.alloyEditor.helpers({
         const instanceIndex = Session.get('currentInstance')
         const enab = !Session.get('model-updated') && instanceIndex !== 0
         return enab ? '' : 'disabled'
-    },
-
-    /**
-     * Whether to enable the sharing of models, when the model has not been
-     * already shared and the model is not empty.
-     */
-    shareModelEnabled() {
-        const enab = !Session.get('model-shared')
-        return enab ? '' : 'disabled'
-    },
-
-    /**
-     * Whether to show model links, when the model has been shared and the
-     * model is not empty.
-     */
-    showModelLinks() {
-        const enab = Session.get('model-shared')
-        return enab
-    },
-
-    /**
-     * Whether to enable the downloading of the derivation tree, if currently
-     * on a shared private link.
-     */
-    downloadTreeEnabled() {
-        const enab = Session.get('from_private')
-        return enab ? '' : 'disabled'
-    },
-
-    /**
-     * Whether to enable the sharing of instances, when the instance has not
-     * been already shared and is not showing a static shared instance.
-     */
-    shareInstEnabled() {
-        const enab = !Session.get('inst-shared') && !Session.get('from-instance')
-        return enab ? '' : 'disabled'
-    },
-
-    /**
-     * Whether to show instance links, when the instance has been shared.
-     */
-    showInstanceLinks() {
-        const enab = Session.get('inst-shared')
-        return enab
     },
 
     /**
@@ -236,7 +191,6 @@ Template.alloyEditor.events({
         updateGraph(prevState(),true)
         applyPositions()
     },
-    'click #downloadTree > button': downloadTree,
     'click .clipboardbutton'(evt) {
         copyToClipboard(evt)
     }
