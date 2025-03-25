@@ -15,18 +15,11 @@ Meteor.methods({
       */
     nextInstances(code, commandIndex, currentModelId) {
         return new Promise((resolve, reject) => {
-            // must send model in case session has expired and must be restarted
-            // if no secrets, try to extract from original
-            let code_with_secrets = code
-            if (currentModelId && !containsValidSecret(code)) {
-                const o = Model.findOne(currentModelId).original
-                code_with_secrets = code + extractSecrets(Model.findOne(o).code).secret
-            }
 
             // call webservice to get instances
             HTTP.call('POST', `${Meteor.settings.env.API_URL}/getInstances`, {
                 data: {
-                    model: code_with_secrets,
+                    model: code,
                     numberOfInstances: Meteor.settings.env.MAX_INSTANCES,
                     commandIndex,
                     sessionId: currentModelId,
