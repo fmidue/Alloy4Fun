@@ -6,18 +6,6 @@
 
 import { displayError } from './feedback'
 
-/**
- * Creates the descendants tree for the current model and triggers its
- * download as a text file.
- */
-export function downloadTree() {
-    const linkId = Router.current().params._id
-    Meteor.call('downloadTree', linkId, (err, res) => {
-        if (err) return displayError(err)
-        const d = new Date()
-        download(`tree_${linkId}_${d.getFullYear()}_${lz(d.getMonth() + 1)}_${lz(d.getDate())}_${lz(d.getHours())}_${lz(d.getMinutes())}_${lz(d.getSeconds())}.json`, JSON.stringify(descendantsToTree(res)))
-    })
-}
 
 /**
  * Converts a list of flat descendants into a tree object using Hashmap and

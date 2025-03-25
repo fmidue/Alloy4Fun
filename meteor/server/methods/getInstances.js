@@ -1,5 +1,6 @@
 import { extractSecrets,
     containsValidSecret } from '../../lib/editor/text'
+import { Model } from '../../lib/collections/model'
 
 Meteor.methods({
     /**
