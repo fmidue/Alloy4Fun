@@ -1,7 +1,6 @@
 import classie from 'classie'
 import 'qtip2/src/core.css'
 import { getCommandsFromCode } from '../../../lib/editor/text'
-import { shareModel } from '../../lib/editor/genUrl'
 import { executeModel, nextInstance, prevInstance } from '../../lib/editor/executeModel'
 import { copyToClipboard } from '../../lib/editor/clipboard'
 import { cmdChanged, isUnsatInstance, prevState, nextState, 

@@ -1,7 +1,5 @@
 /**
  * Module that handles model execution and navigation.
- *
- * @module client/lib/editor/genUrl
  */
 
 import { displayError,
