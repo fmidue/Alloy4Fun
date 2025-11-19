@@ -23,4 +23,4 @@ services:
       context: ./api/
     image: alloy4fun-api:latest
     ports:
-      - "8081:8080" # if access id needed from the outside (otherwise no need)
+      - "8081:8080" # if access is needed from the outside (otherwise no need)
