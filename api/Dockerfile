@@ -1,17 +1,10 @@
-FROM openjdk:jdk-alpine
+FROM maven:3.9.11-amazoncorretto-8
 
-# OPTION 1 - mvn clean install (has to download everything, everytime)
-# RUN apk update && apk upgrade && apk add --no-cache maven # use this if it makes sense to update
-RUN apk add --no-cache maven
 COPY ./lib/ /home/lib/
 COPY ./src/ /home/src/
 COPY pom.xml /home/
 WORKDIR /home/
 RUN mvn clean install
-
-# OPTION 2 - do mvn clean install on host machine and then simply copy the "fat jar"
-# this might be faster due to local maven cache
-# COPY target/alloy4fun-api-thorntail.jar /home/target/alloy4fun-api-thorntail.jar
 
 EXPOSE 8080
 # preferIPv4Stack is needed to keep wildfly-swarm happy
