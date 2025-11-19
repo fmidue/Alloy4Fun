@@ -1,5 +1,3 @@
-import { extractSecrets,
-    containsValidSecret } from '../../lib/editor/text'
 
 Meteor.methods({
     /**
@@ -17,29 +15,13 @@ Meteor.methods({
       */
     getInstances(code, commandIndex, fromPrivate, currentModelId) {
         return new Promise((resolve, reject) => {
-            // if no secrets, try to extract from original
-            let code_with_secrets = code
-            if (currentModelId && !containsValidSecret(code) && !fromPrivate) {
-                const o = Model.findOne(currentModelId).original
-                code_with_secrets = code + extractSecrets(Model.findOne(o).code).secret
-            }
 
-            // save executed model to database
-            const new_model = {
-                time: new Date().toLocaleString(),
-                // original code, without secrets
-                code,
-                cmd_i: commandIndex,
-                derivationOf: currentModelId
-            }
-
-            // insert the new model
-            const new_model_id = Model.insert(new_model)
+            const new_model_id = Date.now().toString()
             
             // call webservice to get instances
             HTTP.call('POST', `${Meteor.settings.env.API_URL}/getInstances`, {
                 data: {
-                    model: code_with_secrets,
+                    model: code,
                     numberOfInstances: Meteor.settings.env.MAX_INSTANCES,
                     commandIndex: commandIndex,
                     sessionId: new_model_id,
@@ -63,18 +45,6 @@ Meteor.methods({
                     cmd_n = content[0].cmd_n
                     chk = content[0].check
                 }
-                let original
-                // if the model has secrets and the previous hadn't, then it is a new root
-                if (!currentModelId || fromPrivate || (containsValidSecret(code) && !containsValidSecret(Model.findOne(currentModelId).code))) {
-                    original = new_model_id
-                }
-                // otherwise inherit the root
-                else {
-                    original = Model.findOne(currentModelId).original
-                }
-
-                // update the root
-                Model.update({ _id: new_model_id }, { $set: { original, sat, cmd_n, cmd_c: chk, msg } })
 
                 // resolve the promise
                 resolve({
