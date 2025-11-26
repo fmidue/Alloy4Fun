@@ -232,7 +232,8 @@ Template.alloyEditor.onRendered(() => {
                             Session.set('model-updated', true)
                             Session.set('secret_code', extractedCode.secret);
                             Session.set("from_private", isPrivate);
-                            Session.set('log-message', undefined);
+                            Session.set('log-message', '')
+                            Session.set('log-class', '')
                         }
                     })
                 } else {
