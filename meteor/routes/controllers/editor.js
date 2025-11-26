@@ -12,11 +12,7 @@ editor = RouteController.extend({
     // see http://iron-meteor.github.io/iron-router/#the-waiton-option
     waitOn() {},
 
-    data() {
-        return {
-            code: 'Unable to retrieve Model from Link'
-        }
-    },
+    data() {},
 
     onRun() {
         this.next()

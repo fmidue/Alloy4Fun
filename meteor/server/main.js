@@ -4,6 +4,7 @@ import './methods/validate'
 import './methods/getInstances'
 import './methods/nextInstances'
 import './methods/getProjection'
+import './methods/loadSrc'
 
 
 

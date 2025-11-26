@@ -32,7 +32,7 @@ export function executeModel() {
     // execute command
     else {
         modelExecuted()
-        const model = textEditor.getValue()
+        const model = textEditor.getValue() + `\n\n${Session.get('secret_code') || ''}`;
         Meteor.call('getInstances', model, commandIndex, Session.get('from_private'), Session.get('last_id'), handleExecuteModel)
     }
 }

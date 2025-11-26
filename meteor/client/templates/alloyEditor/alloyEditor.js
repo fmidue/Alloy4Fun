@@ -1,6 +1,6 @@
 import classie from 'classie'
 import 'qtip2/src/core.css'
-import { getCommandsFromCode } from '../../../lib/editor/text'
+import { extractSecrets, getCommandsFromCode } from '../../../lib/editor/text'
 import { executeModel, nextInstance, prevInstance } from '../../lib/editor/executeModel'
 import { copyToClipboard } from '../../lib/editor/clipboard'
 import { cmdChanged, isUnsatInstance, prevState, nextState, 
@@ -209,7 +209,7 @@ Template.alloyEditor.onRendered(() => {
     Session.set('from-instance', false)
 
     // if there's subscribed data, process it
-    if (Router.current().data && textEditor) {
+    if (false && Router.current().data && textEditor) {
         // load the model from controller
         const model = Router.current().data()
         // save the loaded model id for later derivations
@@ -256,6 +256,39 @@ Template.alloyEditor.onRendered(() => {
         }
     } else { // else, a new model
         Session.set('from_private', undefined)
+    }
+    // If a `loadSrc` query parameter is present, fetch external source
+    try {
+        const loadSrc = Router.current()?.params?.query?.loadSrc;
+        const isPrivate = !!Router.current()?.params?.query?.private;
+        if (loadSrc) {
+            // Try to load once textEditor is available; retry shortly if not yet created
+            const tryLoad = () => {
+                if (typeof textEditor !== 'undefined' && textEditor) {
+                    Meteor.call('loadExternalSrc', loadSrc, (err, response) => {
+                        if (err) {
+                            Session.set('log-message', `Failed to load external source: ${err.reason || err.message}`)
+                            Session.set('log-class', 'log-error')
+                        } else {
+                            // Load the fetched code into the editor and update commands
+                            const extractedCode = extractSecrets(response || '');
+
+                            textEditor.setValue(isPrivate ? response : extractedCode.public)
+                            const cs = getCommandsFromCode(textEditor.getValue())
+                            Session.set('commands', cs)
+                            Session.set('model-updated', true)
+                            Session.set('secret_code', extractedCode.secret);
+                            Session.set("from_private", isPrivate);
+                        }
+                    })
+                } else {
+                    Meteor.setTimeout(tryLoad, 100)
+                }
+            }
+            tryLoad()
+        }
+    } catch (e) {
+        console.error('Error handling loadSrc parameter', e)
     }
     // add click effects to buttons
     buttonsEffects()
