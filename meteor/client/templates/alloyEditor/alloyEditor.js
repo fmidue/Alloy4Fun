@@ -4,9 +4,8 @@ import { extractSecrets, getCommandsFromCode } from '../../../lib/editor/text'
 import { executeModel, nextInstance, prevInstance } from '../../lib/editor/executeModel'
 import { copyToClipboard } from '../../lib/editor/clipboard'
 import { cmdChanged, isUnsatInstance, prevState, nextState, 
-    lastState, currentState, setCurrentState, storeInstances, 
-    getCurrentState, getCurrentTrace } from '../../lib/editor/state'
-import { staticProjection, savePositions, applyPositions } from '../../lib/visualizer/projection'
+    lastState, currentState, getCurrentTrace } from '../../lib/editor/state'
+import { savePositions, applyPositions } from '../../lib/visualizer/projection'
 
 Template.alloyEditor.helpers({
     /**
@@ -207,56 +206,8 @@ Template.alloyEditor.onRendered(() => {
     Session.set('local-secrets', false)
     Session.set('model-shared', false)
     Session.set('from-instance', false)
+    Session.set('from_private', undefined)
 
-    // if there's subscribed data, process it
-    if (false && Router.current().data && textEditor) {
-        // load the model from controller
-        const model = Router.current().data()
-        // save the loaded model id for later derivations
-        Session.set('last_id', model.model_id)
-        // whether the followed link was private
-        Session.set('from_private', model.from_private)
-        // retrieved the inherited secret commands
-        Session.set('hidden_commands', model.sec_commands)
-        const cs = getCommandsFromCode(model.code)
-        if (model.sec_commands) cs.concat(model.sec_commands)
-        // register all available commands
-        Session.set('commands', cs)
-
-        // update the textEditor
-        textEditor.setValue(model.code)
-
-        // retrieve the shared theme
-        const themeData = model.theme
-        if (themeData) {
-            setCurrentState(themeData.currentState)
-            sigSettings.init(themeData.sigSettings)
-            relationSettings.init(themeData.relationSettings)
-            generalSettings.init(themeData.generalSettings)
-            currentFramePosition = themeData.currentFramePosition
-            currentlyProjectedSigs = themeData.currentlyProjectedSigs
-            if (currentlyProjectedSigs.length !== 0) staticProjection()
-        }
-
-        // if a shared instance, process it
-        if (model.instance) {
-            Session.set('from-instance', true)
-            Session.set('log-message', 'Static shared instance. Execute model to iterate.')
-            Session.set('log-class', 'log-info')
-            initGraphViewer('instance')
-            // load graph JSON data
-            if (cy && model.instance.graph.instance[0].types) {
-                storeInstances([model.instance.graph])
-                updateGraph(getCurrentState())
-                nodePositions = themeData.nodePositions
-                applyPositions()
-                cy.zoom(model.instance.graph.zoom)
-                cy.pan(model.instance.graph.pan)
-            }
-        }
-    } else { // else, a new model
-        Session.set('from_private', undefined)
-    }
     // If a `loadSrc` query parameter is present, fetch external source
     try {
         const loadSrc = Router.current()?.params?.query?.loadSrc;
@@ -265,6 +216,8 @@ Template.alloyEditor.onRendered(() => {
             // Try to load once textEditor is available; retry shortly if not yet created
             const tryLoad = () => {
                 if (typeof textEditor !== 'undefined' && textEditor) {
+                    Session.set('log-class', 'log-info')
+                    Session.set('log-message', 'Loading external source...')
                     Meteor.call('loadExternalSrc', loadSrc, (err, response) => {
                         if (err) {
                             Session.set('log-message', `Failed to load external source: ${err.reason || err.message}`)
@@ -279,6 +232,7 @@ Template.alloyEditor.onRendered(() => {
                             Session.set('model-updated', true)
                             Session.set('secret_code', extractedCode.secret);
                             Session.set("from_private", isPrivate);
+                            Session.set('log-message', undefined);
                         }
                     })
                 } else {
