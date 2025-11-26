@@ -211,7 +211,7 @@ Template.alloyEditor.onRendered(() => {
     // If a `loadSrc` query parameter is present, fetch external source
     try {
         const loadSrc = Router.current()?.params?.query?.loadSrc;
-        const isPrivate = !!Router.current()?.params?.query?.private;
+        const isPrivate = Router.current()?.params?.query?.private === 'true';
         if (loadSrc) {
             // Try to load once textEditor is available; retry shortly if not yet created
             const tryLoad = () => {
