@@ -17,8 +17,6 @@ ecmascript@0.16.7              # Enable ECMAScript2015+ syntax in app code
 shell-server@0.5.0            # Server-side component of the `meteor shell` command
 
 session@1.2.1
-aldeed:simple-schema
-aldeed:collection2
 iron:router
 twbs:bootstrap
 jeremy:selectize
