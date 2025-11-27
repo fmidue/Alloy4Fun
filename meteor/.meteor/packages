@@ -17,7 +17,6 @@ ecmascript@0.16.8              # Enable ECMAScript2015+ syntax in app code
 shell-server@0.5.0            # Server-side component of the `meteor shell` command
 
 session@1.2.1
-iron:router
 twbs:bootstrap
 jeremy:selectize
 risul:bootstrap-colorpicker
@@ -29,3 +28,5 @@ fortawesome:fontawesome
 http@1.4.2
 meteortesting:mocha
 practicalmeteor:chai
+ostrio:flow-router-extra
+kadira:blaze-layout

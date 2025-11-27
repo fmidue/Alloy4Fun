@@ -1,18 +1,19 @@
 /**
  * Defines the routes for the application
  */
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
+import { BlazeLayout } from 'meteor/kadira:blaze-layout';
+import '../imports/ui/layouts/mainLayout.html';
 
-// global route settings
-Router.configure({
-    // Template displayed while loading data.
-    loadingTemplate: 'loading',
-    // Template displayed when there"s no route for the sub domain.
-    notFoundTemplate: 'notFound'
-})
+FlowRouter.route('/', {
+  name: 'alloyEditor',
+  action() {
+    BlazeLayout.render('mainLayout', { content: 'alloyEditor' });
+  }
+});
 
-// route settings for default endpoint "/"
-Router.route('/', {
-    name: 'editor',
-    controller: 'editor',
-    where: 'client'
-})
+FlowRouter.route('*', {
+  action() {
+    BlazeLayout.render('mainLayout', { content: 'notFound' });
+  }
+});

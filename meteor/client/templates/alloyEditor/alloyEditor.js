@@ -1,3 +1,4 @@
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import classie from 'classie'
 import 'qtip2/src/core.css'
 import { extractSecrets, getCommandsFromCode } from '../../../lib/editor/text'
@@ -206,8 +207,8 @@ Template.alloyEditor.onRendered(() => {
 
     // If a `loadSrc` query parameter is present, fetch external source
     try {
-        const loadSrc = Router.current()?.params?.query?.loadSrc;
-        const isPrivate = Router.current()?.params?.query?.private === 'true';
+        const loadSrc = FlowRouter.getQueryParam('loadSrc');
+        const isPrivate = FlowRouter.getQueryParam('private') === 'true';
         if (loadSrc) {
             // Try to load once textEditor is available; retry shortly if not yet created
             const tryLoad = () => {
