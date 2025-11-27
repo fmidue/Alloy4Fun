@@ -16,7 +16,6 @@ You can contribute by looking at the [issues](issues/) section.
 
 **INFO:** The application contains three main services/containers:
  1. `api` - where a Java web service is used to interact with the [alloytools API](http://alloytools.org)
- 1. `mongo` - the instance of [mongodb](https://www.mongodb.com/) that has data persistance outside docker
  1. `meteor` - the webapp that interacts with the other services
 
 **SETUP:** To start the application in your development environment:
@@ -28,7 +27,6 @@ You can contribute by looking at the [issues](issues/) section.
 
 **READY:** You can now:
  * visit the application at [localhost:3010](http://localhost:3010)
- * access the database with a mongo client such as [Robo3T](https://robomongo.org/) at [localhost:27017](mongodb://localhost/27017)
  * use the webservice available at [localhost:8081](http://localhost:8081)
 
 

@@ -6,7 +6,7 @@ Here are the overall changes that were performed on this project, these are iter
 
  * Fixed installation guide for old version (with Eclipse)
  * Java Web services that only run on Eclipse are no longer needed
- * Introducing Docker containers for each service (api + mongo + meteor) and a docker-compose file for orchestrating these services together
+ * Introducing Docker containers for each service (api + meteor) and a docker-compose file for orchestrating these services together
  * Setup of api to be REST instead of SOAP
  * Imported old meteor code into new instance
  * Fixed missing imports
@@ -53,7 +53,7 @@ Here are the overall changes that were performed on this project, these are iter
  * HTML cleanup for editor with bootstrap (unnecessary classes and ids, structure, ...)
  * Dimplified contribution instructions and setup difficulty
  * README is ready to be official
- * Derivation tree implemented (tried with mongo aggregation but it seems unfeasable). Currently, all the descents are loaded and then the tree is created on client-side using a hashmap and DFS iteration.
+ * Derivation tree implemented. Currently, all the descents are loaded and then the tree is created on client-side using a hashmap and DFS iteration.
  * Tests for the algorithm to generate the derivation tree
  * Implemented download of derivation tree for Data Mining  (name of files is `tree_LINKID_YYYY_MM_DD_HH_MM_SS`)
  * Improved user feedback on errors when invoking Meteor methods, using sweet alert to display verbose errors from server
@@ -71,7 +71,6 @@ Here are the overall changes that were performed on this project, these are iter
  * After that, fixing linter errors (there are 600+, but they were 2000+ originally and some depend on rules chosen, which we did not feel confortable in doing)
  * Including [analytics](https://guide.meteor.com/deployment.html#analytics) might be a good addition to monitor platform usage, also see the [analytics for iron router](https://github.com/reywood/meteor-iron-router-ga) which is the Routes library being used. 
  * Ideas for scaling Alloy4fun:
-    * Defining indexes for mongodb (requires good knowledge of mongo optimization)
     * Check [docker swarm](https://docs.docker.com/engine/swarm/) for horizontal scaling of api service
     * Good server for deployment
  * Did not change the following todos because they were not clear or not specified by the PO:
