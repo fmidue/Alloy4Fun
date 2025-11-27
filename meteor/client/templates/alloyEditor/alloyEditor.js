@@ -1,14 +1,11 @@
 import classie from 'classie'
 import 'qtip2/src/core.css'
-import { getCommandsFromCode } from '../../../lib/editor/text'
-import { shareModel, shareInstance } from '../../lib/editor/genUrl'
+import { extractSecrets, getCommandsFromCode } from '../../../lib/editor/text'
 import { executeModel, nextInstance, prevInstance } from '../../lib/editor/executeModel'
-import { downloadTree } from '../../lib/editor/downloadTree'
 import { copyToClipboard } from '../../lib/editor/clipboard'
 import { cmdChanged, isUnsatInstance, prevState, nextState, 
-    lastState, currentState, setCurrentState, storeInstances, 
-    getCurrentState, getCurrentTrace } from '../../lib/editor/state'
-import { staticProjection, savePositions, applyPositions } from '../../lib/visualizer/projection'
+    lastState, currentState, getCurrentTrace } from '../../lib/editor/state'
+import { savePositions, applyPositions } from '../../lib/visualizer/projection'
 
 Template.alloyEditor.helpers({
     /**
@@ -41,50 +38,6 @@ Template.alloyEditor.helpers({
         const instanceIndex = Session.get('currentInstance')
         const enab = !Session.get('model-updated') && instanceIndex !== 0
         return enab ? '' : 'disabled'
-    },
-
-    /**
-     * Whether to enable the sharing of models, when the model has not been
-     * already shared and the model is not empty.
-     */
-    shareModelEnabled() {
-        const enab = !Session.get('model-shared')
-        return enab ? '' : 'disabled'
-    },
-
-    /**
-     * Whether to show model links, when the model has been shared and the
-     * model is not empty.
-     */
-    showModelLinks() {
-        const enab = Session.get('model-shared')
-        return enab
-    },
-
-    /**
-     * Whether to enable the downloading of the derivation tree, if currently
-     * on a shared private link.
-     */
-    downloadTreeEnabled() {
-        const enab = Session.get('from_private')
-        return enab ? '' : 'disabled'
-    },
-
-    /**
-     * Whether to enable the sharing of instances, when the instance has not
-     * been already shared and is not showing a static shared instance.
-     */
-    shareInstEnabled() {
-        const enab = !Session.get('inst-shared') && !Session.get('from-instance')
-        return enab ? '' : 'disabled'
-    },
-
-    /**
-     * Whether to show instance links, when the instance has been shared.
-     */
-    showInstanceLinks() {
-        const enab = Session.get('inst-shared')
-        return enab
     },
 
     /**
@@ -224,7 +177,6 @@ Template.alloyEditor.events({
     'change .command-selection > select'() {
         cmdChanged()
     },
-    'click #genUrl > button': shareModel,
     'click #prev > button': prevInstance,
     'click #next > button': nextInstance,
     'click #nextTrace'() {       
@@ -237,8 +189,6 @@ Template.alloyEditor.events({
         updateGraph(prevState(),true)
         applyPositions()
     },
-    'click #genInstanceUrl > button': shareInstance,
-    'click #downloadTree > button': downloadTree,
     'click .clipboardbutton'(evt) {
         copyToClipboard(evt)
     }
@@ -256,55 +206,44 @@ Template.alloyEditor.onRendered(() => {
     Session.set('local-secrets', false)
     Session.set('model-shared', false)
     Session.set('from-instance', false)
+    Session.set('from_private', undefined)
 
-    // if there's subscribed data, process it
-    if (Router.current().data && textEditor) {
-        // load the model from controller
-        const model = Router.current().data()
-        // save the loaded model id for later derivations
-        Session.set('last_id', model.model_id)
-        // whether the followed link was private
-        Session.set('from_private', model.from_private)
-        // retrieved the inherited secret commands
-        Session.set('hidden_commands', model.sec_commands)
-        const cs = getCommandsFromCode(model.code)
-        if (model.sec_commands) cs.concat(model.sec_commands)
-        // register all available commands
-        Session.set('commands', cs)
+    // If a `loadSrc` query parameter is present, fetch external source
+    try {
+        const loadSrc = Router.current()?.params?.query?.loadSrc;
+        const isPrivate = Router.current()?.params?.query?.private === 'true';
+        if (loadSrc) {
+            // Try to load once textEditor is available; retry shortly if not yet created
+            const tryLoad = () => {
+                if (typeof textEditor !== 'undefined' && textEditor) {
+                    Session.set('log-class', 'log-info')
+                    Session.set('log-message', 'Loading external source...')
+                    Meteor.call('loadExternalSrc', loadSrc, (err, response) => {
+                        if (err) {
+                            Session.set('log-message', `Failed to load external source: ${err.reason || err.message}`)
+                            Session.set('log-class', 'log-error')
+                        } else {
+                            // Load the fetched code into the editor and update commands
+                            const extractedCode = extractSecrets(response || '');
 
-        // update the textEditor
-        textEditor.setValue(model.code)
-
-        // retrieve the shared theme
-        const themeData = model.theme
-        if (themeData) {
-            setCurrentState(themeData.currentState)
-            sigSettings.init(themeData.sigSettings)
-            relationSettings.init(themeData.relationSettings)
-            generalSettings.init(themeData.generalSettings)
-            currentFramePosition = themeData.currentFramePosition
-            currentlyProjectedSigs = themeData.currentlyProjectedSigs
-            if (currentlyProjectedSigs.length !== 0) staticProjection()
-        }
-
-        // if a shared instance, process it
-        if (model.instance) {
-            Session.set('from-instance', true)
-            Session.set('log-message', 'Static shared instance. Execute model to iterate.')
-            Session.set('log-class', 'log-info')
-            initGraphViewer('instance')
-            // load graph JSON data
-            if (cy && model.instance.graph.instance[0].types) {
-                storeInstances([model.instance.graph])
-                updateGraph(getCurrentState())
-                nodePositions = themeData.nodePositions
-                applyPositions()
-                cy.zoom(model.instance.graph.zoom)
-                cy.pan(model.instance.graph.pan)
+                            textEditor.setValue(isPrivate ? response : extractedCode.public)
+                            const cs = getCommandsFromCode(textEditor.getValue())
+                            Session.set('commands', cs)
+                            Session.set('model-updated', true)
+                            Session.set('secret_code', extractedCode.secret);
+                            Session.set("from_private", isPrivate);
+                            Session.set('log-message', '')
+                            Session.set('log-class', '')
+                        }
+                    })
+                } else {
+                    Meteor.setTimeout(tryLoad, 100)
+                }
             }
+            tryLoad()
         }
-    } else { // else, a new model
-        Session.set('from_private', undefined)
+    } catch (e) {
+        console.error('Error handling loadSrc parameter', e)
     }
     // add click effects to buttons
     buttonsEffects()

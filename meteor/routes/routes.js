@@ -13,13 +13,6 @@ Router.configure({
 // route settings for default endpoint "/"
 Router.route('/', {
     name: 'editor',
-    template: 'alloyEditor',
-    where: 'client'
-})
-
-// route settings for endpoint with model id "/:_id"
-Router.route('/:_id', {
-    name: 'editorLoad',
     controller: 'editor',
     where: 'client'
 })

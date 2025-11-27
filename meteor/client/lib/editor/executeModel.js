@@ -1,7 +1,5 @@
 /**
  * Module that handles model execution and navigation.
- *
- * @module client/lib/editor/genUrl
  */
 
 import { displayError,
@@ -34,7 +32,7 @@ export function executeModel() {
     // execute command
     else {
         modelExecuted()
-        const model = textEditor.getValue()
+        const model = textEditor.getValue() + `\n\n${Session.get('secret_code') || ''}`;
         Meteor.call('getInstances', model, commandIndex, Session.get('from_private'), Session.get('last_id'), handleExecuteModel)
     }
 }
@@ -76,7 +74,6 @@ export function nextInstance() {
             updateGraph(ni)
             newInstanceSetup()
             instChanged()
-            Meteor.call('navInstance', 0, Session.get('currentInstance'), Session.get('last_id'))
         }
     }
 }
@@ -101,7 +98,6 @@ export function prevInstance() {
         updateGraph(ni)
         newInstanceSetup()
         instChanged()
-        Meteor.call('navInstance', 1, Session.get('currentInstance'), Session.get('last_id'))
     }
 }
 
