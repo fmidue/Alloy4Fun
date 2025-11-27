@@ -2,7 +2,6 @@ import classie from 'classie'
 import 'qtip2/src/core.css'
 import { extractSecrets, getCommandsFromCode } from '../../../lib/editor/text'
 import { executeModel, nextInstance, prevInstance } from '../../lib/editor/executeModel'
-import { copyToClipboard } from '../../lib/editor/clipboard'
 import { cmdChanged, isUnsatInstance, prevState, nextState, 
     lastState, currentState, getCurrentTrace } from '../../lib/editor/state'
 import { savePositions, applyPositions } from '../../lib/visualizer/projection'
@@ -188,9 +187,6 @@ Template.alloyEditor.events({
         savePositions()
         updateGraph(prevState(),true)
         applyPositions()
-    },
-    'click .clipboardbutton'(evt) {
-        copyToClipboard(evt)
     }
 })
 
