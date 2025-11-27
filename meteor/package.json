@@ -9,13 +9,13 @@
         "lint": "eslint . --fix"
     },
     "dependencies": {
-        "@babel/runtime": "^7.12.5",
+        "@babel/runtime": "^7.28.4",
         "classie": "^1.0.0",
-        "codemirror": "^5.58.3",
+        "codemirror": "^5.65.20",
         "cytoscape": "^2.7.29",
         "meteor-node-stubs": "^0.4.1",
         "qtip2": "^3.0.3",
-        "simpl-schema": "^1.10.2"
+        "simpl-schema": "^1.13.1"
     },
     "meteor": {
         "mainModule": {
@@ -29,12 +29,12 @@
         "eslint": "^5.16.0",
         "eslint-config-airbnb": "^17.1.1",
         "eslint-import-resolver-meteor": "^0.4.0",
-        "eslint-plugin-import": "^2.22.1",
-        "eslint-plugin-jsx-a11y": "^6.4.1",
+        "eslint-plugin-import": "^2.32.0",
+        "eslint-plugin-jsx-a11y": "^6.10.2",
         "eslint-plugin-meteor": "^5.2.0",
-        "eslint-plugin-react": "^7.21.5",
-        "puppeteer": "^19.5.2",
-        "selenium-webdriver": "^4.0.0-alpha.7"
+        "eslint-plugin-react": "^7.37.5",
+        "puppeteer": "^19.11.1",
+        "selenium-webdriver": "^4.38.0"
     },
     "eslintConfig": {
         "parser": "babel-eslint",
