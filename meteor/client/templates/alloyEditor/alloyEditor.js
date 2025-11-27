@@ -260,34 +260,16 @@ function buttonsEffects() {
         return check
     }
 
-    const support = {
-        animations: Modernizr.cssanimations
-    }
-
-    const animEndEventNames = {
-        WebkitAnimation: 'webkitAnimationEnd',
-        OAnimation: 'oAnimationEnd',
-        msAnimation: 'MSAnimationEnd',
-        animation: 'animationend'
-    }
-
-    const animEndEventName = animEndEventNames[Modernizr.prefixed('animation')]
-
     const onEndAnimation = function (el, callback) {
         const onEndCallbackFn = function (ev) {
-            if (support.animations) {
-                if (ev.target !== this) return
-                this.removeEventListener(animEndEventName, onEndCallbackFn)
-            }
+            if (ev.target !== this) return
+            this.removeEventListener("animationend", onEndCallbackFn)
+
             if (callback && typeof callback === 'function') {
                 callback.call()
             }
         }
-        if (support.animations) {
-            el.addEventListener(animEndEventName, onEndCallbackFn)
-        } else {
-            onEndCallbackFn()
-        }
+        el.addEventListener("animationend", onEndCallbackFn)
     }
 
     const eventtype = mobilecheck() ? 'touchstart' : 'click';
