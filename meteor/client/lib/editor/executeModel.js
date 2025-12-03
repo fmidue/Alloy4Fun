@@ -55,7 +55,7 @@ export function nextInstance() {
     const maxInstanceNumber = Session.get('maxInstance')
     // no more local instances but still not unsat
     if (instanceIndex == maxInstanceNumber - 1 && !isUnsatInstance(instanceIndex)) {
-        const model = textEditor.getValue()
+        const model = textEditor.getValue() + `\n\n${Session.get('secret_code') || ''}`;
         Meteor.call('nextInstances', model, getCommandIndex(), Session.get('last_id'), handleExecuteModel)
     }
     const ni = getNextInstance()
