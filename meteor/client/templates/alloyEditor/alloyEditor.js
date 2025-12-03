@@ -227,10 +227,10 @@ Template.alloyEditor.onRendered(() => {
                             const cs = getCommandsFromCode(textEditor.getValue())
                             Session.set('commands', cs)
                             Session.set('model-updated', true)
-                            Session.set('secret_code', extractedCode.secret);
                             Session.set("from_private", isPrivate);
                             Session.set('log-message', '')
                             Session.set('log-class', '')
+                            if(!isPrivate) Session.set('secret_code', extractedCode.secret);
                         }
                     })
                 } else {
