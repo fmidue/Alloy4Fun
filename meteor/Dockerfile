@@ -1,1 +1,1 @@
-FROM fmidue/meteor-launchpad:2025-11-19.13-25 AS builder
+FROM fmidue/meteor-launchpad:2025-12-03.12-08 AS builder
