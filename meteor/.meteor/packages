@@ -10,7 +10,7 @@ jquery@1.9.1                  # Helpful client-side library
 tracker@1.3.4                 # Meteor's client-side reactive programming library
 
 standard-minifier-js@3.0.0    # JS minifier run for production mode
-ecmascript@0.16.9              # Enable ECMAScript2015+ syntax in app code
+ecmascript@0.16.10              # Enable ECMAScript2015+ syntax in app code
 
 session@1.2.2
 twbs:bootstrap
