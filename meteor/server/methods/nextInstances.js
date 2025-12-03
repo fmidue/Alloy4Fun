@@ -13,29 +13,29 @@ Meteor.methods({
       *
       * @returns the instance data and the id of the new saved model
       */
-    nextInstances(code, commandIndex, currentModelId) {
-        return new Promise((resolve, reject) => {
-
-            // call webservice to get instances
-            HTTP.call('POST', `${Meteor.settings.env.API_URL}/getInstances`, {
-                data: {
+    async nextInstances(code, commandIndex, currentModelId) {
+        console.log("Trying to load next instances for id:", currentModelId);
+        try {
+            const response = await fetch(`${Meteor.settings.env.API_URL}/getInstances`, {
+                method: 'POST',
+                body: JSON.stringify({
                     model: code,
                     numberOfInstances: Meteor.settings.env.MAX_INSTANCES,
                     commandIndex,
                     sessionId: currentModelId,
                     parentId: ''
-                }
-            }, (error, result) => {
-                if (error) reject(error)
-
-                const content = JSON.parse(result.content)
-
-                // resolve the promise
-                resolve({
-                    instances: content,
-                    newModelId: currentModelId
                 })
-            })
-        })
+            });
+
+            const content = await response.json();
+
+            return {
+                instances: content,
+                newModelId: currentModelId
+            };
+
+        } catch (error) {
+            throw new Meteor.Error("next-instances-failed", error.message || "Failed to get next instances");
+        }
     }
 })
