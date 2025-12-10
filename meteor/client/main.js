@@ -1,6 +1,5 @@
 import { Meteor } from 'meteor/meteor'
 
-import '../imports/ui/layouts/mainLayout.html';
 import './templates/alloyEditor/alloyEditor.html';
 import './templates/alloyEditor/alloyEditor';
 import './templates/loading/loading.html';
