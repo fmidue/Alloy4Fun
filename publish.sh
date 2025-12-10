@@ -38,7 +38,7 @@ tar -C $TEMP_METEOR_DIR -czf alloy4fun-meteor.keter .
 
 rm -rf $TEMP_METEOR_DIR meteor-dist/
 
-# Deploy (assumes that java-8 and Node.js v14 are installed on the server and included in PATH)
+# Deploy (assumes that java-8 and Node.js v20 (or newer) are installed on the server and included in PATH)
 
 USER=
 GROUP=${USER}
@@ -77,7 +77,7 @@ ssh ${JUMP_HOST:+-J} ${JUMP_HOST:+"${JUMP_HOST}"}\
   && cd ${METEOR_REMOTE_DIR}/meteor\
   && tar xf ../${METEOR_KET}\
   && cd ${METEOR_REMOTE_DIR}/meteor/bundle/programs/server\
-  && npm install --only=production\
+  && npm install --omit=dev\
   && chown -R ${USER}:${GROUP} ${METEOR_REMOTE_DIR}\
   && rm -rf ${METEOR_REMOTE_DIR}/${METEOR_KET} ${METEOR_TARGET_FOLDER}\
   && ln -sf ${METEOR_REMOTE_DIR}/meteor ${METEOR_TARGET_FOLDER}\
