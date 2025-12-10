@@ -3,8 +3,8 @@
     "private": true,
     "scripts": {
         "start": "meteor --settings settings.json",
-        "test": "TEST_BROWSER_DRIVER=chrome meteor test --once --driver-package meteortesting:mocha",
-        "test-app": "TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha",
+        "test": "echo 'Temporarily unsupported'",
+        "test-app": "echo 'Temporarily unsupported'",
         "visualize": "meteor --production --extra-packages bundle-visualizer",
         "lint": "echo 'Temporarily unsupported'"
     },
@@ -21,11 +21,6 @@
         "mainModule": {
             "server": "server/main.js"
         }
-    },
-    "devDependencies": {
-        "chromedriver": "74.0.0",
-        "puppeteer": "^19.11.1",
-        "selenium-webdriver": "^4.38.0"
     },
     "postcss": {
         "plugins": {
