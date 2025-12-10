@@ -1,18 +1,18 @@
 /**
  * Defines the routes for the application
  */
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
+import { Blaze } from "meteor/blaze";
 
-// global route settings
-Router.configure({
-    // Template displayed while loading data.
-    loadingTemplate: 'loading',
-    // Template displayed when there"s no route for the sub domain.
-    notFoundTemplate: 'notFound'
-})
+FlowRouter.route('/', {
+  name: 'alloyEditor',
+  action() {
+    Blaze.render(Template.alloyEditor, document.body);
+  }
+});
 
-// route settings for default endpoint "/"
-Router.route('/', {
-    name: 'editor',
-    controller: 'editor',
-    where: 'client'
-})
+FlowRouter.route('*', {
+  action() {
+    Blaze.render(Template.notFound, document.body);
+  }
+});

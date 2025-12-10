@@ -1,8 +1,8 @@
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import classie from 'classie'
 import 'qtip2/src/core.css'
 import { extractSecrets, getCommandsFromCode } from '../../../lib/editor/text'
 import { executeModel, nextInstance, prevInstance } from '../../lib/editor/executeModel'
-import { copyToClipboard } from '../../lib/editor/clipboard'
 import { cmdChanged, isUnsatInstance, prevState, nextState, 
     lastState, currentState, getCurrentTrace } from '../../lib/editor/state'
 import { savePositions, applyPositions } from '../../lib/visualizer/projection'
@@ -188,9 +188,6 @@ Template.alloyEditor.events({
         savePositions()
         updateGraph(prevState(),true)
         applyPositions()
-    },
-    'click .clipboardbutton'(evt) {
-        copyToClipboard(evt)
     }
 })
 
@@ -210,8 +207,8 @@ Template.alloyEditor.onRendered(() => {
 
     // If a `loadSrc` query parameter is present, fetch external source
     try {
-        const loadSrc = Router.current()?.params?.query?.loadSrc;
-        const isPrivate = Router.current()?.params?.query?.private === 'true';
+        const loadSrc = FlowRouter.getQueryParam('loadSrc');
+        const isPrivate = FlowRouter.getQueryParam('private') === 'true';
         if (loadSrc) {
             // Try to load once textEditor is available; retry shortly if not yet created
             const tryLoad = () => {
@@ -230,10 +227,10 @@ Template.alloyEditor.onRendered(() => {
                             const cs = getCommandsFromCode(textEditor.getValue())
                             Session.set('commands', cs)
                             Session.set('model-updated', true)
-                            Session.set('secret_code', extractedCode.secret);
                             Session.set("from_private", isPrivate);
                             Session.set('log-message', '')
                             Session.set('log-class', '')
+                            if(!isPrivate) Session.set('secret_code', extractedCode.secret);
                         }
                     })
                 } else {
@@ -264,34 +261,16 @@ function buttonsEffects() {
         return check
     }
 
-    const support = {
-        animations: Modernizr.cssanimations
-    }
-
-    const animEndEventNames = {
-        WebkitAnimation: 'webkitAnimationEnd',
-        OAnimation: 'oAnimationEnd',
-        msAnimation: 'MSAnimationEnd',
-        animation: 'animationend'
-    }
-
-    const animEndEventName = animEndEventNames[Modernizr.prefixed('animation')]
-
     const onEndAnimation = function (el, callback) {
         const onEndCallbackFn = function (ev) {
-            if (support.animations) {
-                if (ev.target !== this) return
-                this.removeEventListener(animEndEventName, onEndCallbackFn)
-            }
+            if (ev.target !== this) return
+            this.removeEventListener("animationend", onEndCallbackFn)
+
             if (callback && typeof callback === 'function') {
                 callback.call()
             }
         }
-        if (support.animations) {
-            el.addEventListener(animEndEventName, onEndCallbackFn)
-        } else {
-            onEndCallbackFn()
-        }
+        el.addEventListener("animationend", onEndCallbackFn)
     }
 
     const eventtype = mobilecheck() ? 'touchstart' : 'click';

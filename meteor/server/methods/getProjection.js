@@ -9,30 +9,34 @@ Meteor.methods({
       *
       * @return JSON object with the projection
       */
-    getProjection(uuid, frameInfo, idx) {
+    async getProjection(uuid, frameInfo, idx) {
         const type = []
         for (const key in frameInfo) {
             type.push(key + frameInfo[key])
         }
-        return new Promise((resolve, reject) => {
-            HTTP.call('POST', `${Meteor.settings.env.API_URL}/getProjection`, {
-                data: {
+
+        try {
+            const response = await fetch(`${Meteor.settings.env.API_URL}/getProjection`, {
+                method: 'POST',
+                body: JSON.stringify({
                     sessionId: uuid,
                     type,
                     index: idx
-                }
-            }, (error, result) => {
-                if (error) reject(error)
-                const content = JSON.parse(result.content)
-                if (content.unsat) {
+                })
+            });
+
+            const content = await response.json();
+            if (content.unsat) {
                     content.check = true
                 } else {
                     Object.keys(content).forEach((k) => {
                         content[k].check = true
                     })
                 }
-                resolve(content)
-            })
-        })
+
+            return content;
+        } catch (error) {
+         throw new Meteor.Error('api-error', error.message || 'An error occurred while fetching the projection from the API.')   
+        }
     }
 })
