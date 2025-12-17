@@ -6,7 +6,7 @@
         "test": "echo 'Temporarily unsupported'",
         "test-app": "echo 'Temporarily unsupported'",
         "visualize": "meteor --production --extra-packages bundle-visualizer",
-        "lint": "echo 'Temporarily unsupported'"
+        "lint": "eslint ."
     },
     "dependencies": {
         "@babel/runtime": "^7.28.4",
@@ -30,5 +30,11 @@
                 ]
             }
         }
+    },
+    "devDependencies": {
+        "@eslint/compat": "^2.0.0",
+        "@eslint/js": "^9.39.2",
+        "eslint": "^9.39.2",
+        "eslint-plugin-meteor": "^7.3.0"
     }
 }
