@@ -34,10 +34,6 @@ Template.rightClickMenu.helpers({
         return (Session.get('rightClickSig') || Session.get('rightClickRel')) ? '' : 'hidden'
     },
 
-    showRelProps() {
-        return Session.get('rightClickRel') ? '' : 'hidden'
-    },
-
     /**
      * Whether to show projection theme options.
      */
