@@ -18,7 +18,7 @@ export default defineConfig([
       ...meteorPlugin.configs.recommended.rules,
       "no-undef": "off",
       "no-unused-vars": "warn",
-      "no-useless-escape": "warn",
+      "no-useless-escape": "off",
       "meteor/audit-argument-checks": "off",
       "meteor/no-session": "off"
     }
