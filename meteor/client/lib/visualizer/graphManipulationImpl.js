@@ -1,6 +1,6 @@
 import cytoscape from 'cytoscape'
 import { updateRightClickContent } from '../../templates/visSettings/rightClickMenu'
-import { instChanged,getCurrentTrace,getCurrentState } from '../editor/state'
+import { instChanged,getCurrentTrace } from '../editor/state'
 import { savePositions } from './projection'
 
 updateGraph = function (instance,v) {
@@ -308,12 +308,12 @@ initGraphViewer = function (element) {
         return false
     })
 
-    cy.on('tap', (event) => {
+    cy.on('tap', () => {
         // hide right click menu
         $('#optionsMenu').hide()
     })
 
-    cy.on('render', (event) => {
+    cy.on('render', () => {
         instChanged()
     })
 }

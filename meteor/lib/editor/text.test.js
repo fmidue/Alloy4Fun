@@ -1,12 +1,9 @@
 import {
-    chai,
-    assert
+    chai
 } from 'meteor/practicalmeteor:chai';
 import {
-    isParagraph,
     containsValidSecret,
     getCommandsFromCode,
-    secretTag,
     extractSecrets
 } from "./text"
 /**

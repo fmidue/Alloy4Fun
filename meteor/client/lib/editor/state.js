@@ -70,7 +70,6 @@ export function instShared() {
  * Updates the state when a new batch of instances has been received.
  */
 export function storeInstances(allInstances) {
-    const instanceIndex = Session.get('currentInstance')
     const maxInstanceNumber = Session.get('maxInstance')
     if (allInstances.alloy_error || allInstances[0].cnt == 0) {
         instances = allInstances

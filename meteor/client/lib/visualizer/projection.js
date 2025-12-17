@@ -65,7 +65,6 @@ export function newInstanceSetup() {
         for (const key in currentlyProjectedSigs) { currentFramePosition[currentlyProjectedSigs[key]] = 0 }
         allNodes = cy.nodes()
         project()
-        const atoms = lastFrame($('.framePickerTarget')[0].value)
         $('.frame-navigation > select').prop('disabled', false)
     }
 }
