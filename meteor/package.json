@@ -3,7 +3,7 @@
     "private": true,
     "scripts": {
         "start": "meteor --settings settings.json",
-        "test": "echo 'Temporarily unsupported'",
+        "test": "node --test",
         "test-app": "echo 'Temporarily unsupported'",
         "visualize": "meteor --production --extra-packages bundle-visualizer",
         "lint": "echo 'Temporarily unsupported'"
