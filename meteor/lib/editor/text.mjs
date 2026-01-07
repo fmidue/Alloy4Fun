@@ -10,9 +10,9 @@ export { containsValidSecret,
     extractSecrets }
 
 /** The secret tag used in Alloy code. */
-secretTag = '//SECRET'
+const secretTag = '//SECRET'
 /** The keywords that identify paragraphs. */
-paragraphKeywords = 'sig|fact|assert|check|fun|pred|run'
+const paragraphKeywords = 'sig|fact|assert|check|fun|pred|run'
 
 /**
   * Checks whether a the code of an Alloy model contains some valid 'secret' tag
