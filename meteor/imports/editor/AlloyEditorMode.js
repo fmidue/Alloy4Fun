@@ -5,6 +5,7 @@
  * Additionaly "sol: true" attribute means that the match should happen only at line start
  */
 import CodeMirror from 'codemirror'
+// eslint-disable-next-line no-unused-vars
 import * as simpleMode from 'codemirror/addon/mode/simple' // do not remove despite unused warning
 import { paragraphKeywords, secretTag } from '../../lib/editor/text'
 

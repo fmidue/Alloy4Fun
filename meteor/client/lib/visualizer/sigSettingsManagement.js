@@ -22,7 +22,6 @@ sigSettings = (function sigSettings() {
             nodeColors,
             nodeShapes,
             nodeBorders,
-            nodeBorders,
             nodeVisibility }
         return data
     }
