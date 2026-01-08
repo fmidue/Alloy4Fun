@@ -12,7 +12,6 @@ standard-minifier-js@3.1.1    # JS minifier run for production mode
 ecmascript@0.16.13              # Enable ECMAScript2015+ syntax in app code
 
 session@1.2.2
-twbs:bootstrap
 jeremy:selectize
 risul:bootstrap-colorpicker
 rochal:slimscroll
