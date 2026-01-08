@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor'
+import jquery from "jquery";
 
 import './templates/alloyEditor/alloyEditor.html';
 import './templates/alloyEditor/alloyEditor';
@@ -10,6 +11,9 @@ import './templates/visSettings/frameNavigation/frameNavigation.html';
 import './templates/visSettings/frameNavigation/frameNavigation';
 import './templates/visSettings/rightClickMenu.html';
 import './templates/visSettings/rightClickMenu';
+
+window.$ = jquery;
+window.jQuery = jquery;
 
 
 Meteor.startup(() => {
