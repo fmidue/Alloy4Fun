@@ -14,7 +14,6 @@
         "codemirror": "^5.65.20",
         "cytoscape": "^2.7.29",
         "jquery": "^3.7.1",
-        "meteor-node-stubs": "^1.2.24",
         "sweetalert2": "^11.26.17"
     },
     "meteor": {
