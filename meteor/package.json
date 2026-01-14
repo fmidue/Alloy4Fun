@@ -11,13 +11,11 @@
     "dependencies": {
         "@babel/runtime": "^7.28.4",
         "bootstrap": "^3.4.1",
-        "classie": "^1.0.0",
         "codemirror": "^5.65.20",
         "cytoscape": "^2.7.29",
         "jquery": "^3.7.1",
         "meteor-node-stubs": "^1.2.24",
-        "qtip2": "^3.0.3",
-        "simpl-schema": "^3.4.6"
+        "sweetalert2": "^11.26.17"
     },
     "meteor": {
         "mainModule": {

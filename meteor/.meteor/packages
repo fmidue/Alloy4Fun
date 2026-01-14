@@ -12,10 +12,7 @@ standard-minifier-js@3.1.1    # JS minifier run for production mode
 ecmascript@0.16.13              # Enable ECMAScript2015+ syntax in app code
 
 session@1.2.2
-jeremy:selectize
-risul:bootstrap-colorpicker
-rochal:slimscroll
-kevohagan:sweetalert
 ostrio:flow-router-extra
 blaze
 templating
+jquery # This is only required as blaze requires it to be explicitly installed as an atmosphere package. Blaze 3.1 plans to remove jQuery completely.

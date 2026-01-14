@@ -1,3 +1,5 @@
+import Swal from "sweetalert2";
+
 /**
  * Module with feedback functions.
  *
@@ -12,8 +14,8 @@
  */
 export function displayError(err) {
     console.error(err)
-    swal({
-        type: 'error',
+    Swal.fire({
+        icon: 'error',
         title: err.error,
         text: err.reason
     })

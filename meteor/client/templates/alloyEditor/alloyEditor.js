@@ -1,6 +1,4 @@
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
-import classie from 'classie'
-import 'qtip2/src/core.css'
 import { extractSecrets, getCommandsFromCode } from '../../../lib/editor/text'
 import { executeModel, nextInstance, prevInstance } from '../../lib/editor/executeModel'
 import { cmdChanged, isUnsatInstance, prevState, nextState, 
@@ -275,11 +273,11 @@ function buttonsEffects() {
 
     const eventtype = mobilecheck() ? 'touchstart' : 'click';
 
-    [].slice.call(document.querySelectorAll('.cbutton')).forEach((el) => {
+    document.querySelectorAll('.cbutton').forEach((el) => {
         el.addEventListener(eventtype, () => {
-            classie.add(el, 'cbutton--click')
-            onEndAnimation(classie.has(el, 'cbutton--complex') ? el.querySelector('.cbutton__helper') : el, () => {
-                classie.remove(el, 'cbutton--click')
+            el.classList.add('cbutton--click')
+            onEndAnimation(el.classList.contains('cbutton--complex') ? el.querySelector('.cbutton__helper') : el, () => {
+                el.classList.remove('cbutton--click')
             })
         })
     })

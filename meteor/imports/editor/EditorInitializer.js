@@ -4,7 +4,6 @@ import { getCommandsFromCode,
     containsValidSecret } from '../../lib/editor/text'
 import 'codemirror/theme/twilight.css'
 import 'codemirror/lib/codemirror.css'
-import 'qtip2'
 import { modelChanged } from '../../client/lib/editor/state'
 
 export { initializeAlloyEditor }
@@ -39,8 +38,6 @@ function initializeAlloyEditor(htmlElement) {
 
     // Text change event for the editor on alloy4fun/editor page
     editor.on('change', (editor) => {
-        $('.qtip').remove()
-
         if ($.trim(editor.getValue()) == '') {
             // empty model
             Session.set('empty-model', true)
