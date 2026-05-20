@@ -1,5 +1,3 @@
-import { extractSecrets,
-    containsValidSecret } from '../../lib/editor/text'
 
 Meteor.methods({
     /**

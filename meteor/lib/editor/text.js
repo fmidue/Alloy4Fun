@@ -10,9 +10,9 @@ export { containsValidSecret,
     extractSecrets }
 
 /** The secret tag used in Alloy code. */
-secretTag = '//SECRET'
+const secretTag = '//SECRET'
 /** The keywords that identify paragraphs. */
-paragraphKeywords = 'sig|fact|assert|check|fun|pred|run'
+const paragraphKeywords = 'sig|fact|assert|check|fun|pred|run'
 
 /**
   * Checks whether a the code of an Alloy model contains some valid 'secret' tag
@@ -42,7 +42,7 @@ function extractSecrets(code) {
     const pgs = paragraphKeywords
     const pgd = `(?:(?:var|one|abstract|lone|some)\\s+)*${pgs}`
     const exp = `(${tag}\\s*?\\n\\s*(?:(?:\\/\\*(?:.|\\n)*?\\*\\/\\s*)|(?:\\/\\/.*\\n)|(?:--.*\\n))*?\\s*(?:${pgd})(?:.|\\n)*?)(?:${tag}\\s*?\\n\\s*)?(?:(?:(?:\\/\\*(?:.|\\n)*?\\*\\/\\s*)|(?:\\/\\/.*\\n)|(?:--.*\\n))*?\\s*(?:${pgd})\\s|$)`
-    while (s = code.match(RegExp(exp))) {
+    while ((s = code.match(RegExp(exp))) !== null) {
         i = code.indexOf(s[0])
         public_code += code.substr(0, i)
         secret += s[1]

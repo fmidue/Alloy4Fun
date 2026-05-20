@@ -45,10 +45,6 @@ Template.frameNavigation.events({
         savePositions()
         project()
         Session.set('frame-updated',!Session.get('frame-updated'))
-    },
-    'change .framePickerTarget'(event) {
-        const selectedSig = event.target.value
-        const currentAtom = currentFramePosition[selectedSig]
     }
 })
 

@@ -167,8 +167,8 @@ Template.alloyEditor.helpers({
 })
 
 Template.alloyEditor.events({
-    keydown(e) {
-        if (e.ctrlKey && e.key === 'e') $('#exec > button').trigger('click')
+    keydown(event) {
+        if (event.ctrlKey && event.key === 'e') $('#exec > button').trigger('click')
 
         // clear all marks
         textEditor.doc.getAllMarks().forEach(marker => marker.clear())

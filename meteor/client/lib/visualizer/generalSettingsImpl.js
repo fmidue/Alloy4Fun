@@ -74,7 +74,7 @@ layouts = {
         condense: false, // uses all available space on false, uses minimal space on true
         rows: undefined, // force num of rows in the grid
         cols: undefined, // force num of columns in the grid
-        position(node) {}, // returns { row, col } for element
+        position() {}, // returns { row, col } for element
         sort(a, b) {
             return a.data('label') < b.data('label')
         }, // a sorting function to order the nodes; e.g. function(a, b){ return a.data('weight') - b.data('weight') }
@@ -107,13 +107,13 @@ layouts = {
         // Extra spacing between components in non-compound graphs
         componentSpacing: 100,
         // Node repulsion (non overlapping) multiplier
-        nodeRepulsion(node) { return 400000 },
+        nodeRepulsion() { return 400000 },
         // Node repulsion (overlapping) multiplier
         nodeOverlap: 10,
         // Ideal edge (non nested) length
-        idealEdgeLength(edge) { return 10 },
+        idealEdgeLength() { return 10 },
         // Divisor to compute edge forces
-        edgeElasticity(edge) { return 100 },
+        edgeElasticity() { return 100 },
         // Nesting factor (multiplier) to compute ideal edge length for nested edges
         nestingFactor: 5,
         // Gravity force (constant)
